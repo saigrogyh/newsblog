@@ -42,7 +42,6 @@ const formatDate = (dateStr) => {
 
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div v-for="post in posts" :key="post.id" class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
-        <!-- Image -->
         <div class="h-48 bg-gray-100 relative">
              <img v-if="post.imagePath" :src="post.imagePath" class="w-full h-full object-cover">
              <div v-else class="w-full h-full flex items-center justify-center text-gray-400">
@@ -50,7 +49,6 @@ const formatDate = (dateStr) => {
              </div>
         </div>
         
-        <!-- Content -->
         <div class="p-5 flex-1 flex flex-col">
           <div class="text-xs text-blue-600 mb-2 font-semibold">
             {{ formatDate(post.createdAt) }}

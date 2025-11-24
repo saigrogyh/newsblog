@@ -4,18 +4,16 @@ import { api } from '../services/api';
 
 const posts = ref([]);
 const showModal = ref(false);
-const modalMode = ref('add'); // 'add' หรือ 'edit'
+const modalMode = ref('add'); 
 
-// Form Data
 const form = ref({
     id: null,
     title: '',
     content: '',
     image: null,
-    previewImage: null // ไว้โชว์รูปตัวอย่างตอนเลือกไฟล์
+    previewImage: null 
 });
 
-// โหลดข้อมูลข่าว
 const fetchPosts = async () => {
     try {
         const res = await api.getPosts();
@@ -25,37 +23,31 @@ const fetchPosts = async () => {
     }
 };
 
-// เปิด Modal (แยกกรณี เพิ่ม หรือ แก้ไข)
 const openModal = (mode, post = null) => {
     modalMode.value = mode;
     showModal.value = true;
     
     if (mode === 'edit' && post) {
-        // กรณีแก้ไข: เอาข้อมูลเดิมมาใส่ Form
         form.value = {
             id: post.id,
             title: post.title,
             content: post.content,
-            image: null, // รีเซ็ตไฟล์ใหม่
-            previewImage: post.imagePath // เอารูปเดิมมาโชว์ก่อน
+            image: null, 
+            previewImage: post.imagePath
         };
     } else {
-        // กรณีเพิ่ม: เคลียร์ Form
         form.value = { id: null, title: '', content: '', image: null, previewImage: null };
     }
 };
 
-// จัดการเมื่อเลือกไฟล์รูป
 const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
         form.value.image = file;
-        // สร้าง URL ชั่วคราวเพื่อแสดงตัวอย่างรูป
         form.value.previewImage = URL.createObjectURL(file);
     }
 };
 
-// บันทึกข้อมูล (Submit)
 const handleSubmit = async () => {
     if (!form.value.title || !form.value.content) return alert('กรุณากรอกหัวข้อและเนื้อหา');
 
@@ -77,7 +69,7 @@ const handleSubmit = async () => {
         if (res.ok) {
             alert('บันทึกสำเร็จ!');
             showModal.value = false;
-            fetchPosts(); // โหลดข้อมูลใหม่
+            fetchPosts(); 
         } else {
             alert('เกิดข้อผิดพลาดจาก Server');
         }
@@ -109,7 +101,6 @@ onMounted(fetchPosts);
         </button>
     </div>
 
-    <!-- Table แสดงรายการ -->
     <div class="bg-white rounded shadow overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
@@ -138,7 +129,6 @@ onMounted(fetchPosts);
         </table>
     </div>
 
-    <!-- Modal Form (Popup) -->
     <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
         <div class="bg-white rounded-lg w-full max-w-lg p-6 shadow-xl">
             <h3 class="text-xl font-bold mb-4">{{ modalMode === 'add' ? 'เพิ่มข่าวใหม่' : 'แก้ไขข่าว' }}</h3>
@@ -157,7 +147,6 @@ onMounted(fetchPosts);
                 <div>
                     <label class="block text-sm font-medium text-gray-700">รูปภาพ</label>
                     <input type="file" @change="handleFileChange" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                    <!-- Preview Image -->
                     <div v-if="form.previewImage" class="mt-2">
                         <img :src="form.previewImage" class="h-32 rounded object-cover border">
                     </div>

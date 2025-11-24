@@ -10,7 +10,7 @@ const routes = [
         path: '/admin', 
         name: 'admin', 
         component: AdminView,
-        meta: { requiresAuth: true } // ต้อง Login
+        meta: { requiresAuth: true }
     }
 ];
 
@@ -22,7 +22,6 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const isAuthenticated = localStorage.getItem('access_token');
     
-    // ถ้าจะไปหน้า Admin แต่ไม่มี Token -> ดีดไป Login
     if (to.meta.requiresAuth && !isAuthenticated) {
         next('/login');
     } else {

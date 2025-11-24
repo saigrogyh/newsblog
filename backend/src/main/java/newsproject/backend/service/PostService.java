@@ -3,6 +3,7 @@ package newsproject.backend.service;
 import newsproject.backend.entity.Post;
 import newsproject.backend.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -15,12 +16,16 @@ public class PostService {
     @Autowired private PostRepository postRepository;
     private final String UPLOAD_DIR = "images/";
 
+    @Value("${app.base-url}")
+    private String baseUrl;
+
     private String saveImage(MultipartFile image) throws IOException {
         String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
         Path path = Paths.get(UPLOAD_DIR + fileName);
         Files.createDirectories(path.getParent());
         Files.write(path, image.getBytes());
-        return "http://localhost:8080/images/" + fileName;
+
+        return baseUrl + "/images/" + fileName;
     }
 
     public Post createPost(String title, String content, MultipartFile image) throws IOException {

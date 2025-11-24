@@ -13,7 +13,7 @@ const logout = () => {
     localStorage.removeItem('access_token');
     isLoggedIn.value = false;
     router.push('/');
-    setTimeout(() => window.location.reload(), 50); // รีโหลดเพื่อเคลียร์ State
+    setTimeout(() => window.location.reload(), 50);
 };
 </script>
 

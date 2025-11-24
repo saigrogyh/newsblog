@@ -5,6 +5,6 @@ import Navbar from './components/Navbar.vue';
 <template>
   <div class="min-h-screen bg-gray-100 font-sans">
     <Navbar />
-    <router-view /> <!-- หน้าเว็บจะเปลี่ยนตรงนี้ -->
+    <router-view />
   </div>
 </template>

@@ -14,7 +14,7 @@ const handleLogin = async () => {
         if (res.ok) {
             const data = await res.json();
             localStorage.setItem('access_token', data.token);
-            window.location.href = '/admin'; // Login ผ่านไปหน้า Admin เลย
+            window.location.href = '/admin';
         } else {
             errorMsg.value = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';
         }

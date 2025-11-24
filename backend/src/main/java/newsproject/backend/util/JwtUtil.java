@@ -1,9 +1,10 @@
 package newsproject.backend.util;
 
-
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import jakarta.annotation.PostConstruct; // ใช้สำหรับ init
 
 import java.security.Key;
 import java.util.Date;
@@ -11,10 +12,16 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_STRING = "MySuperSecretKeyForNewsBlogSystem2024DoNotShare";
+    @Value("${jwt.secret:MySuperSecretKeyForNewsBlogSystem2024DoNotShare}")
+    private String secretString;
 
-    private final Key SECRET_KEY = Keys.hmacShaKeyFor(SECRET_STRING.getBytes());
+    private Key SECRET_KEY;
     private static final long EXPIRATION_TIME = 86400000; // 1 วัน
+
+    @PostConstruct
+    public void init() {
+        this.SECRET_KEY = Keys.hmacShaKeyFor(secretString.getBytes());
+    }
 
     public String generateToken(String username) {
         return Jwts.builder()

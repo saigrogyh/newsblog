@@ -2,10 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import ฟอนต์ภาษาไทย (Sarabun) */
 @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap');
 
-/* ตั้งค่า Default Font */
 body {
     font-family: 'Sarabun', sans-serif;
 }
